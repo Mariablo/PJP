@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-//ahoj jak se mas
+//ahoj jak se mas druha zmena hihi
 public class EvaluateString
 {
     public static int evaluate(string expression)
