@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Evaluation.cs" />
     <Compile Include="main.cs" />
+	  <Compile Include="Lexical.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.15.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">

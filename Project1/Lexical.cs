@@ -22,7 +22,24 @@ namespace Project1
 
         public override string ToString()
         {
-            return $"{Type}:{Value}";
+            switch (Type)
+            {
+                case TokenType.Operator: return $"OP:{Value}";
+                case TokenType.Number: return $"NUM:{Value}";
+                case TokenType.Identifier: return $"ID:{Value}";
+                case TokenType.Delimiter:
+                    switch (Value)
+                    {
+                        case "(": return "LPAR";
+                        case ")": return "RPAR";
+                        case ";": return "SEMICOLON";
+                        default: return $"DELIMITER:{Value}";
+                    }
+                case TokenType.Keyword:
+                    return Value.ToUpper();
+                default:
+                    return $"UNKNOWN:{Value}";
+            }
         }
     }
 
@@ -33,17 +50,21 @@ namespace Project1
             var tokens = new List<Token>();
             var tokenDefinitions = new (Regex, TokenType)[]
             {
-            (new Regex(@"\b(div|mod)\b"), TokenType.Keyword),
-            (new Regex(@"[a-zA-Z]\w*"), TokenType.Identifier),
-            (new Regex(@"\d+"), TokenType.Number),
-            (new Regex(@"[\+\-\*\/]"), TokenType.Operator),
-            (new Regex(@"[\(\);]"), TokenType.Delimiter)
+                (new Regex(@"\b(div|mod)\b"), TokenType.Keyword),
+                (new Regex(@"[a-zA-Z]\w*"), TokenType.Identifier),
+                (new Regex(@"\d+"), TokenType.Number),
+                (new Regex(@"[\+\-\*\/]"), TokenType.Operator),
+                (new Regex(@"[\(\);]"), TokenType.Delimiter)
             };
 
             // Remove comments
             var noComments = Regex.Replace(input, @"//.*", "");
 
-            foreach (Match match in Regex.Matches(noComments, @"\S+"))
+            // Handle special cases by inserting spaces around delimiters and operators
+            var processedInput = Regex.Replace(noComments, @"(\()|(\))|(;)", " $1$2$3 ");
+            processedInput = Regex.Replace(processedInput, @"(?<=\d)-", " - "); // Handle negative numbers
+
+            foreach (Match match in Regex.Matches(processedInput, @"\S+"))
             {
                 foreach (var (regex, tokenType) in tokenDefinitions)
                 {
@@ -55,7 +76,22 @@ namespace Project1
                 }
             }
 
-            return tokens;
+            // Additional processing for specific cases, such as separating operators from numbers
+            var refinedTokens = new List<Token>();
+            foreach (var token in tokens)
+            {
+                if (token.Type == TokenType.Number && token.Value.StartsWith("-"))
+                {
+                    refinedTokens.Add(new Token(TokenType.Operator, "-"));
+                    refinedTokens.Add(new Token(TokenType.Number, token.Value.Substring(1)));
+                }
+                else
+                {
+                    refinedTokens.Add(token);
+                }
+            }
+
+            return refinedTokens;
         }
     }
 }

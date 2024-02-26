@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-//ahoj jak se mas druha zmena hihi
+
 namespace Project1
 {
     public class Program
