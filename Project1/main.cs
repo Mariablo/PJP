@@ -9,7 +9,7 @@ namespace Project1
         public static void Main(string[] args)
         {
             // Read the number of operations to perform
-            string input = Console.ReadLine();
+            /*string input = Console.ReadLine();
             if (!int.TryParse(input, out int count_of_operation))
             {
                 Console.WriteLine("You must enter a number.");
@@ -37,6 +37,17 @@ namespace Project1
             foreach (string result in results)
             {
                 Console.WriteLine(result);
+            }*/
+
+
+            string input = @"
+            -2 + (245 div 3);  // note
+            2 mod 3 * hello";
+
+            var tokens = Lexical.Analyze(input);
+            foreach (var token in tokens)
+            {
+                Console.WriteLine(token);
             }
 
             Console.ReadLine(); // Wait for user input before closing
