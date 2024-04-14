@@ -85,6 +85,18 @@ namespace ANTLR
                 Errors.ReportError(context.expr().Start, "Type of the expression inside WHILE should be bool.");
         }
 
+        public override void ExitFor([NotNull] ExprParser.ForContext context)
+        {
+            var type = Types.Get(context.expr()[0]);
+            var type1 = Types.Get(context.expr()[1]);
+            var type2 = Types.Get(context.expr()[2]);
+
+            if(type1 != Type.Bool && type1 != Type.Error)
+            {
+                Errors.ReportError(context.expr()[1].Start, "Type of the expression insidie FOR should be bool.");
+            }
+        }
+
         public override void ExitExpr([NotNull] ExprParser.ExprContext context)
         {
             if (context.primary() != null)

@@ -1,4 +1,3 @@
-// GRAMMAR NAME - Grammar
 grammar Expr;
 
 program   :   command * EOF                                ;
@@ -7,11 +6,11 @@ command   :   '{' command* '}'                              # Code_block
           |   primitiveType IDENTIFIER (',' IDENTIFIER)* ';'   # Declaration
           |   IF '(' expr ')' command (ELSE command)?      # If
           |   WHILE '(' expr ')' command                   # While
+          |   FOR '(' expr ';' expr ';' expr ')' command   # For
           |   expr ';'                                     # Expression
           |   READ IDENTIFIER (',' IDENTIFIER)* ';'        # Read
           |   WRITE expr (',' expr)* ';'                   # Write
           |   ';'                                          # Empty;
-
 
 expr      
     : primary
@@ -27,7 +26,6 @@ expr
     | <assoc=right> IDENTIFIER '=' expr
     ;
 
-
 primary
     : '(' expr ')'
     | DECIMAL_LITERAL
@@ -36,7 +34,6 @@ primary
     | BOOL_LITERAL
     | IDENTIFIER
     ;
-
 
 // LITERALS
 // DATA TYPES KEYWORDS
@@ -55,6 +52,7 @@ STRING:	'string';
 IF:		'if';
 ELSE:	'else';
 WHILE:	'while';
+FOR: 'for';
 READ:	'read';
 WRITE:	'write';
 
