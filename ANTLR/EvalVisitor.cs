@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
@@ -274,14 +275,24 @@ namespace ANTLR
                 if (right == Type.Int && left == Type.Float)
                     result.AppendLine($"itof");
 
+                string operationTypeSuffix = "";
+                if (left == Type.Float || right == Type.Float)
+                {
+                    operationTypeSuffix = " F";
+                }
+                else
+                {
+                    operationTypeSuffix = " I";
+                }
+
                 if (context.op.Type == ExprParser.ADD)
-                    result.AppendLine($"add");
+                    result.AppendLine($"add{operationTypeSuffix}");
                 if (context.op.Type == ExprParser.SUB)
-                    result.AppendLine($"sub");
+                    result.AppendLine($"sub{operationTypeSuffix}");
                 if (context.op.Type == ExprParser.MUL)
-                    result.AppendLine($"mul");
+                    result.AppendLine($"mul{operationTypeSuffix}");
                 if (context.op.Type == ExprParser.DIV)
-                    result.AppendLine($"div");
+                    result.AppendLine($"div{operationTypeSuffix}");
                 if (context.op.Type == ExprParser.MOD)
                     result.AppendLine($"mod");
                 if (context.op.Type == ExprParser.COMMA)

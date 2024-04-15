@@ -14,7 +14,7 @@ namespace ANTLR
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
-            foreach (var filename in new[] { "input3.txt" , "input5.txt" })
+            foreach (var filename in new[] { "input5.txt" })
             {
                 Console.WriteLine("Parsing: " + filename);
                 var inputFile = new StreamReader(filename);
@@ -46,7 +46,7 @@ namespace ANTLR
                     else
                     {
                         var result = new EvalVisitor(symbolTable, typeChecking.Types).Visit(tree);
-                        Console.WriteLine(result);
+                        //Console.WriteLine(result);
 
                         using (StreamWriter writer = new StreamWriter("../net5.0/new" + filename))
                         {
@@ -57,6 +57,7 @@ namespace ANTLR
                     }
                 }
             }
+            VirtualMachine virtualMachine = new VirtualMachine("newinput3.txt");
         }
     }
 }
